@@ -192,7 +192,8 @@ def gen_3Dscatters_hist(df, s, t, output_dir):
     filename = ("ETR_Age_" + str(s) + "_Year_" + str(t) + "_data.png")
     fullpath = os.path.join(output_dir, filename)
     fig.savefig(fullpath, bbox_inches='tight')
-    plt.close()
+    # plt.close()
+    plt.show()
 
     # Plot 3D histogram for all data
     fig = plt.figure()
@@ -220,7 +221,8 @@ def gen_3Dscatters_hist(df, s, t, output_dir):
     filename = ("Hist_Age_" + str(s) + "_Year_" + str(t) + ".png")
     fullpath = os.path.join(output_dir, filename)
     fig.savefig(fullpath, bbox_inches='tight')
-    plt.close()
+    # plt.close()
+    plt.show()
 
     # Plot 3D scatterplot of MTRx data
     fig = plt.figure()
@@ -234,7 +236,8 @@ def gen_3Dscatters_hist(df, s, t, output_dir):
     filename = ("MTRx_Age_"+ str(s) + "_Year_" + str(t) + "_data.png")
     fullpath = os.path.join(output_dir, filename)
     fig.savefig(fullpath, bbox_inches='tight')
-    plt.close()
+    # plt.close()
+    plt.show()
 
     # Plot 3D scatterplot of MTRy data
     fig = plt.figure()
@@ -248,7 +251,8 @@ def gen_3Dscatters_hist(df, s, t, output_dir):
     filename = ("MTRy_Age_"+ str(s) + "_Year_" + str(t) + "_data.png")
     fullpath = os.path.join(output_dir, filename)
     fig.savefig(fullpath, bbox_inches='tight')
-    plt.close()
+    # plt.close()
+    plt.show()
 
 
 def plot_txfunc_v_data(tx_params, data, params): #This isn't in use yet
@@ -318,10 +322,10 @@ def plot_txfunc_v_data(tx_params, data, params): #This isn't in use yet
             fullpath = os.path.join(output_dir, filename)
             fig.savefig(fullpath, bbox_inches='tight')
 
-        if show_plots:
-            plt.show()
+        # if show_plots:
+        plt.show()
 
-        plt.close()
+        # plt.close()
 
     if plot_trunc:
         # Make comparison plot with truncated income domains
@@ -366,10 +370,10 @@ def plot_txfunc_v_data(tx_params, data, params): #This isn't in use yet
             fullpath = os.path.join(output_dir, filename)
             fig.savefig(fullpath, bbox_inches='tight')
 
-        if show_plots:
-            plt.show()
+        # if show_plots:
+        plt.show()
 
-        plt.close()
+        # plt.close()
 
 
 def wsumsq(params, *args):
@@ -518,8 +522,8 @@ def find_outliers(sse_mat, age_vec, se_mult, start_year, varstr,
             os.makedirs(output_dir)
         graphname = "SSE_" + varstr
         output_path = os.path.join(output_dir, graphname)
-        plt.savefig(output_path)
-        # plt.show()
+        #plt.savefig(output_path)
+        plt.show()
     if sse_big_mat.sum() > 0:
         # Mark the outliers from the first sweep above. Then mark the
         # new outliers in a second sweep
@@ -557,8 +561,8 @@ def find_outliers(sse_mat, age_vec, se_mult, start_year, varstr,
             plt.ylabel(r'SSE')
             graphname = "SSE_" + varstr + "_NoOut1"
             output_path = os.path.join(output_dir, graphname)
-            plt.savefig(output_path)
-            # plt.show()
+            #plt.savefig(output_path)
+            plt.show()
         if (sse_mat_new > thresh2).sum() > 0:
             # Mark the outliers from the second sweep above
             sse_mat_new2 = sse_mat_new.copy()
@@ -589,8 +593,8 @@ def find_outliers(sse_mat, age_vec, se_mult, start_year, varstr,
                 plt.ylabel(r'SSE')
                 graphname = "SSE_" + varstr + "_NoOut2"
                 output_path = os.path.join(output_dir, graphname)
-                plt.savefig(output_path)
-                # plt.show()
+                #plt.savefig(output_path)
+                plt.show()
 
     return sse_big_mat
 
@@ -859,7 +863,7 @@ def txfunc_est(df, s, t, rate_type, output_dir, graph):
             '_vsPred.png')
         fullpath = os.path.join(output_dir, filename)
         fig.savefig(fullpath, bbox_inches='tight')
-        plt.close()
+        # plt.close()
 
         # Make comparison plot with truncated income domains
         df_trnc_gph = df[(df['Total Labor Income'] > 5) &
@@ -897,7 +901,7 @@ def txfunc_est(df, s, t, rate_type, output_dir, graph):
             '_vsPred.png')
         fullpath = os.path.join(output_dir, filename)
         fig.savefig(fullpath, bbox_inches='tight')
-        plt.close()
+        # plt.close()
 
     return params, wsse, obs
 
@@ -997,9 +1001,9 @@ def tax_func_estimate(beg_yr=2016, baseline=True, analytical_mtrs=False,
     beg_yr = int(beg_yr)
     end_yr = int(beg_yr + tpers - 1)
     numparams = int(12)
-    desc_data = False
-    graph_data = False
-    graph_est = False
+    desc_data = True#False
+    graph_data = True#False
+    graph_est = True#False
     # A, B, C, D, maxx, minx, maxy, miny, shift_x, shift_y, shift, share
     etrparam_arr = np.zeros((s_max - s_min + 1, tpers, numparams))
     mtrxparam_arr = np.zeros((s_max - s_min + 1, tpers, numparams))
@@ -1035,14 +1039,15 @@ def tax_func_estimate(beg_yr=2016, baseline=True, analytical_mtrs=False,
     utils.mkdirs(output_dir)
 
     # call tax caculator and get microdata
-    micro_data = get_micro_data.get_data(baseline=baseline,
-        start_year=beg_yr, reform=reform)
-    # if reform:
-    #     micro_data = pickle.load(open("micro_data_policy.pkl", "rb"))
-    # else:
-    #     micro_data = pickle.load(open("micro_data_baseline.pkl", "rb"))
+    # micro_data = get_micro_data.get_data(baseline=baseline,
+    #     start_year=beg_yr, reform=reform)
+    if reform:
+        micro_data = pickle.load(open("../micro_data_policy.pkl", "rb"))
+    else:
+        micro_data = pickle.load(open("../micro_data_baseline.pkl", "rb"))
 
-    for t in years_list: #for t in np.arange(2016, 2017):
+    for t in np.arange(2017, 2018):
+    # for t in years_list: #for t in np.arange(2016, 2017):
         '''
         ----------------------------------------------------------------
         Clean up the data
@@ -1150,7 +1155,8 @@ def tax_func_estimate(beg_yr=2016, baseline=True, analytical_mtrs=False,
         # Each age s must be done in serial, but each year can be done
         # in parallel
 
-        for s in ages_list: # for s in np.array([23, 24, 60, 63, 64, 65, 66, 67, 70, 71, 74, 79]):
+        for s in np.array([42]):
+        # for s in ages_list: # for s in np.array([23, 24, 60, 63, 64, 65, 66, 67, 70, 71, 74, 79]):
             if age_specific:
                 print "year=", t, "Age=", s
                 df = data_trnc[data_trnc['Age'] == s]
