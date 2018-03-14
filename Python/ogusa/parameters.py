@@ -467,6 +467,7 @@ def get_full_parameters(baseline, guid, user_modifiable, metadata):
     etr_params = dict_params['tfunc_etr_params_S'][:S,:BW,:]
     mtrx_params = dict_params['tfunc_mtrx_params_S'][:S,:BW,:]
     mtry_params = dict_params['tfunc_mtry_params_S'][:S,:BW,:]
+    print 'THIS CHANGED'
 
     # # Make all ETRs equal the average
     # etr_params = np.zeros(etr_params.shape)
